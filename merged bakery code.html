@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tickle Treats Bakery</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@300;500&family=Cinzel:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #2a1f1e;
+            color: #f1e0c6;
+            line-height: 1.6;
+        }
+        header {
+            background-color: #3e2b1a;
+            padding: 30px 20px;
+            text-align: center;
+            font-family: 'Playfair Display', serif;
+            color: white;
+        }
+        .logo-box {
+            background-color: #fff;
+            padding: 10px;
+            border: 3px solid #8b5e34;
+            border-radius: 15px;
+            box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);
+        }
+        .logo {
+            font-family: 'Cinzel', serif;
+            font-size: 36px;
+            color: #8b5e34;
+            margin: 0;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        nav {
+            display: flex;
+            justify-content: center;
+            background-color: #1f130e;
+            padding: 15px 0;
+        }
+        nav a {
+            color: #f1e0c6;
+            padding: 14px 20px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+        nav a:hover {
+            color: #e6b39a;
+        }
+        .content {
+            padding: 20px;
+            max-width: 1000px;
+            margin: auto;
+        }
+        .page {
+            display: none;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        .page:target {
+            display: block;
+        }
+        #home {
+            background-image: url('https://images.rawpixel.com/image_800/cHJpdmF0ZS9sci9pbWFnZXMvd2Vic2l0ZS8yMDI0LTAyL3Jhd3BpeGVsX29mZmljZV81OF9waG90b19vZl9iYWtlcnlfc2hvcF9uYXR1cmFsaXN0aWNfYWVzdGhldGljX2UxODI2NGU4LTYyODItNDg5OC1hODczLTg0ZGM0NTBjYjM2OF8xLmpwZw.jpg');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            text-align: center;
+            padding: 100px 20px;
+            border-radius: 10px;
+        }
+        .bakery-item {
+            display: flex;
+            align-items: center;
+            background-color: #3e2b1a;
+            margin: 20px 0;
+            padding: 20px;
+            border-radius: 10px;
+            border: 2px solid #8b5e34;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease;
+        }
+        .bakery-item:hover {
+            transform: translateY(-5px);
+        }
+        .bakery-item img {
+            width: 150px;
+            height: 150px;
+            border-radius: 10px;
+            margin-right: 20px;
+            object-fit: cover;
+            border: 2px solid #8b5e34;
+        }
+        .bakery-item h3 {
+            color: #e6b39a;
+            font-family: 'Cinzel', serif;
+        }
+        footer {
+            background-color: #1f130e;
+            color: white;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        /* Collapsible Menu Styles */
+        .menu-category {
+            margin-bottom: 20px;
+            background-color: #3e2b1a;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        
+        .menu-category > summary {
+            padding: 15px 20px;
+            font-family: 'Cinzel', serif;
+            font-size: 1.5em;
+            color: #e6b39a;
+            cursor: pointer;
+            list-style: none;
+            transition: all 0.3s ease;
+            background-color: #3e2b1a;
+            border-bottom: 2px solid #8b5e34;
+        }
+        
+        .menu-category > summary::-webkit-details-marker {
+            display: none;
+        }
+        
+        .menu-category > summary:after {
+            content: "+";
+            float: right;
+            font-size: 1.5em;
+            transition: transform 0.3s ease;
+        }
+        
+        .menu-category[open] > summary:after {
+            transform: rotate(45deg);
+        }
+        
+        .menu-category > summary:hover {
+            background-color: #4a3625;
+        }
+        
+        .menu-category-content {
+            padding: 15px;
+        }
+        
+        .sub-category {
+            margin: 15px 0;
+            background-color: #2a1f1e;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        .sub-category > summary {
+            padding: 12px 15px;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 500;
+            color: #f1e0c6;
+            cursor: pointer;
+            list-style: none;
+            background-color: #2a1f1e;
+            border-bottom: 1px solid #8b5e34;
+        }
+        
+        .sub-category > summary::-webkit-details-marker {
+            display: none;
+        }
+        
+        .sub-category > summary:after {
+            content: "+";
+            float: right;
+            transition: transform 0.3s ease;
+        }
+        
+        .sub-category[open] > summary:after {
+            transform: rotate(45deg);
+        }
+        
+        .sub-category-content {
+            padding: 10px 15px;
+        }
+
+        /* Enhanced About Us Section */
+        #about {
+            background-color: #3e2b1a;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .about-content {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            align-items: center;
+        }
+
+        .about-text {
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .about-image {
+            flex: 1;
+            min-width: 300px;
+            height: 300px;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .about-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .about-image:hover img {
+            transform: scale(1.05);
+        }
+
+        /* Enhanced Contact Section */
+        #contact {
+            background-color: #3e2b1a;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .contact-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+        }
+
+        .contact-info {
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .contact-info h3 {
+            color: #e6b39a;
+            font-family: 'Cinzel', serif;
+            border-bottom: 2px solid #8b5e34;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+
+        .contact-info p {
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+
+        .contact-info i {
+            margin-right: 10px;
+            color: #e6b39a;
+            font-size: 1.2em;
+        }
+
+        .contact-form {
+            flex: 1;
+            min-width: 300px;
+            background-color: #2a1f1e;
+            padding: 30px;
+            border-radius: 10px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: #e6b39a;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #8b5e34;
+            background-color: #3e2b1a;
+            color: #f1e0c6;
+        }
+
+        .form-group textarea {
+            height: 120px;
+        }
+
+        .submit-btn {
+            background-color: #8b5e34;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+        }
+
+        .submit-btn:hover {
+            background-color: #a5784d;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        .social-link {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            background-color: #8b5e34;
+            color: white;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 40px;
+            transition: all 0.3s ease;
+        }
+
+        .social-link:hover {
+            background-color: #e6b39a;
+            transform: translateY(-3px);
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <header>                
+        <div class="logo-box">
+            <h1 class="logo">Tickle Treats Bakery</h1>
+        </div>
+        <p>Where Tradition Meets Artistry</p>
+    </header>
+    <nav>
+        <a href="#home">Home</a>
+        <a href="#menu">Menu</a>
+        <a href="#about">About Us</a>
+        <a href="#contact">Contact</a>
+    </nav>
+    <div class="content">
+        <div id="home" class="page">
+            <h2>Welcome to Tickle Treats Bakery!</h2>
+            <p>Indulge in classic and contemporary treats crafted with love.</p>
+        </div>
+
+        <div id="menu" class="page">
+            <h2>Our Menu</h2>
+            
+<div class="bakery-item">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ8ee5wHFmq-LVPgfrdjijG-EnH4PGglQ9-6g&s" alt="Special of the Day">
+            <div>
+                <h3>Special of the Day</h3>
+                <p>Try our freshly baked <strong>Strawberry Cheesecake</strong> – a creamy delight with a buttery biscuit base.</p>
+                <p class="price">230 INR</p>
+            </div>
+        </div>
+
+
+            <!-- Croissants Section -->
+            <details class="menu-category">
+                <summary>Croissants</summary>
+                <div class="menu-category-content">
+                    <div class="bakery-item">
+                        <img src="https://loveandcheesecake.com/cdn/shop/files/buttercroissant2.jpg?v=1711088930&width=480" alt="Butter Croissant">
+                        <div>
+                            <h3>Butter Croissant</h3>
+                            <p>Flaky, buttery, and perfect with your morning coffee.</p>
+                            <p class="price">70 INR</p>
+                        </div>
+                    </div>
+                    <div class="bakery-item">
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ7f9fCoEd4eKZhHJe3SXJbqcBW-JsUDokj-A&s" alt="Chocolate Croissant">
+                        <div>
+                            <h3>Chocolate Croissant</h3>
+                            <p>A classic croissant filled with rich chocolate.</p>
+                            <p class="price">90 INR</p>
+                        </div>
+                    </div>
+                    <div class="bakery-item">
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTou4sQEyCuVLq4MNvBMknCkgOk1hMyhr3oFw&s" alt="Match Mochi Croissant">
+                        <div>
+                            <strong>NEW!!!</strong>
+                            <h3>Match Mochi Croissant</h3>
+                            <p>A classic croissant filled with a delicious Matcha Frangipane, chewy mochi, and topped with more Matcha.</p>
+                            <p class="price">150 INR</p>
+                        </div>
+                    </div>
+                </div>
+            </details>
+
+            <!-- Cakes Section -->
+            <details class="menu-category">
+                <summary>Cakes</summary>
+                <div class="menu-category-content">
+                    <!-- Classic Cakes Subsection -->
+                    <details class="sub-category">
+                        <summary>Classic Cakes</summary>
+                        <div class="sub-category-content">
+                            <div class="bakery-item">
+                                <img src="https://cdn.igp.com/f_auto,q_auto,t_pnopt19prodlp/products/p-chocolicious-cake-204929-m.jpg">
+                                <div>
+                                    <h3>Chocolisious Cake (500g)</h3>
+                                    <p>Rich, moist, and layered with velvety chocolate ganache.</p>
+                                    <p class="price">300 INR</p>
+                                </div>
+                            </div>
+                            <div class="bakery-item">
+                                <img src="https://cdn.igp.com/f_auto,q_auto,t_prodl/products/p-midnight-red-velvet-new-year-cake-500gm--198546-m.jpg">
+                                <div>
+                                    <h3>Red Velvet Cake(500g)</h3>
+                                    <p>A classic red velvet cake with cream cheese frosting.</p>
+                                    <p class="price">330 INR</p>
+                                </div>
+                            </div>
+                            <div class="bakery-item">
+                                <img src="https://assets.myntassets.com/w_412,q_60,dpr_2,fl_progressive/assets/images/28976350/2024/4/17/7549c2bf-e227-4809-ad18-d83a2a2f779f1713346883646Cake1.jpg">
+                                <div>
+                                    <h3>Vanilla buttercream Cake (500g)</h3>
+                                    <p>Rich, moist, and layered with velvety chocolate ganache.</p>
+                                    <p class="price">320 INR</p>
+                                </div>
+                            </div>
+                        </div>
+                    </details>
+
+                    <!-- Specialty Cakes Subsection -->
+                    <details class="sub-category">
+                        <summary>Specialty Cakes</summary>
+                        <div class="sub-category-content">
+                            <div class="bakery-item">
+                                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQjL_TYToMucOmJF4d0psFpGytGTb3L9AoPoQ&s">
+                                <div>
+                                    <h3>Tiramisu Cake</h3>
+                                    <p>Four layers of vanilla sponge cakes soaked in spiked coffee, frosted with a light and fluffy mascarpone cream and topped with a generous dusting of cocoa powder.</p>
+                                    <p class="price">850 INR</p>
+                                </div>
+                            </div>
+                            <div class="bakery-item">
+                                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSRxnmRkd7FI58TBNB6iMIDHX3OLu3E53JRgg&s">
+                                <div>
+                                    <h3>Salted Caramel Cake(1kg)</h3>
+                                    <p>A decadent cake with layers of salted caramel and vanilla sponge.</p>
+                                    <p class="price">1250 INR</p>
+                                </div>
+                            </div>
+                            <div class="bakery-item">
+                                <img src="https://bonnibakery.com/wp-content/uploads/2022/04/Chocolate-Espresso-Cake_52-1.jpg">
+                                <div>
+                                    <h3>Mocha Espresso Cake</h3>
+                                    <p>Rich and moist chocolate and espresso cake layered with glossy espresso frosting.</p>
+                                    <p class="price">1200 INR</p>
+                                </div>
+                            </div>
+                        </div>
+                    </details>
+
+                    <!-- Custom/Celebration Cakes Subsection -->
+                    <details class="sub-category">
+                        <summary>Custom/Celebration Cakes</summary>
+                        <div class="sub-category-content">
+                            <div class="bakery-item">
+                                <img src="https://www.thechefpatissier.com/cdn/shop/files/IMG_5550.jpg?v=1736244012&width=1946">
+                                <div>
+                                    <h3>Birthday Cake</h3>
+                                    <p>Customizable birthday cakes with your choice of flavors and decorations.</p>
+                                    <p class="price">Starting from 400 INR</p>
+                                </div>
+                            </div>
+                            <div class="bakery-item">
+                                <img src="https://i0.wp.com/bakeoffcakes.in/wp-content/uploads/2024/07/Classic-Pineapple-Birthday-Cake.jpg?fit=828%2C1008&ssl=1">
+                                <div>
+                                    <h3>Wedding Cake</h3>
+                                    <p>Elegant wedding cakes tailored to your special day.</p>
+                                    <p class="price">Starting from 1000 INR</p>
+                                </div>
+                            </div>
+                        </div>
+                    </details>
+                </div>
+            </details>
+
+            <!-- Breads Section -->
+            <details class="menu-category">
+                <summary>Breads</summary>
+                <div class="menu-category-content">
+                    <div class="bakery-item">
+                        <img src="https://theobroma.in/cdn/shop/files/WheatSourdoughLoaf.jpg?v=1711606024">
+                        <div>
+                            <h3>Wheat Sourdough Bread</h3>
+                            <p>Freshly baked sourdough.</p>
+                            <p class="price">120 INR</p>
+                        </div>
+                    </div>
+
+                    <div class="bakery-item">
+                        <img src="https://sallysbakingaddiction.com/wp-content/uploads/2024/01/whole-wheat-sandwich-bread-2.jpg">
+                        <div>
+                            <h3>Whole Grain Bread</h3>
+                            <p>Freshly baked sourdough.</p>
+                            <p class="price">120 INR</p>
+                        </div>
+                    </div>
+
+                    <div class="bakery-item">
+                        <img src="https://static01.nyt.com/images/2018/12/11/dining/as-garlic-bread/as-garlic-bread-square640.jpg">               
+                        <div>
+                            <h3>Garlic Bread</h3>
+                            <p>Warm and flavorful garlic bread, perfect for any meal.</p>
+                            <p class="price">100 INR</p>
+                        </div>
+                    </div>
+                </div>
+            </details>
+
+            <!-- Macarons Section -->
+            <details class="menu-category">
+                <summary>Macarons</summary>
+                <div class="menu-category-content">
+                    <div class="bakery-item">
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTnmMr9aFK6qYQQiCp-XK0jcKwiCoZINSL3XQ&s">
+                        <div>
+                            <h3>Vanilla Macaron</h3>
+                            <p>Delicate and sweet vanilla-flavored macarons.</p>
+                            <p class="price">30 INR each</p>
+                        </div>
+                    </div>
+                    <div class="bakery-item">
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQa3rO_sENXkBH1CmtL-F60KB-ySQEKfGlxfg&s">
+                        <div>
+                            <h3>Raspberry Macaron</h3>
+                            <p>Tangy and sweet raspberry-flavored macarons.</p>
+                            <p class="price">35 INR each</p>
+                        </div>
+                    </div>
+                </div>
+            </details>
+        </div>
+
+        <div id="about" class="page">
+            <h2>Our Story</h2>
+            <div class="about-content">
+                <div class="about-text">
+                    <p>Founded in 2015, Tickle Treats Bakery began as a small family-owned shop with a passion for creating delicious, handcrafted pastries. What started as a humble kitchen experiment quickly grew into a beloved neighborhood bakery.</p>
+                    
+                    <p>Our founder, Ananya Mehta, brought generations-old recipes from her grandmother's kitchen in Mumbai, blending them with modern techniques to create our signature treats. Today, we continue this tradition of excellence, using only the finest ingredients sourced from local farmers and suppliers.</p>
+                    
+                    <p>At Tickle Treats, we believe baking is an art form. Each morning, our bakers arrive before dawn to prepare fresh batches of our specialties, ensuring every bite delivers the perfect balance of flavor and texture.</p>
+                </div>
+
+                <div class="about-image">
+                    <img src="https://cdn.shopify.com/s/files/1/0521/3929/4884/files/Website_0dd87541-d1d6-445b-a04c-32d2f6039049_480x480.jpg?v=1655357449">
+                </div>
+            </div>
+        </div>
+
+        <div id="contact" class="page">
+            <h2>Get in Touch</h2>
+            <div class="contact-container">
+                <div class="contact-info">
+                    <h3>Visit Us</h3>
+                    <p><i class="fas fa-map-marker-alt"></i> 123, Baker's Lane, Mumbai, Maharashtra, India - 400001</p>
+                    <p><i class="fas fa-phone"></i> +91-98765 43210</p>
+                    <p><i class="fas fa-envelope"></i> info@tickletreats.com</p>
+                    <p><i class="fas fa-clock"></i> Open Daily: 7:00 AM - 8:00 PM</p>
+                    
+                    <h3 style="margin-top: 30px;">Follow Us</h3>
+                    <div class="social-links">
+                        <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-pinterest"></i></a>
+                    </div>
+                </div>
+                
+                <div class="contact-form">
+                    <h3>Send Us a Message</h3>
+                    <form>
+                        <div class="form-group">
+                            <label for="name">Your Name</label>
+                            <input type="text" id="name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email Address</label>
+                            <input type="email" id="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="subject">Subject</label>
+                            <input type="text" id="subject">
+                        </div>
+                        <div class="form-group">
+                            <label for="message">Message</label>
+                            <textarea id="message" required></textarea>
+                        </div>
+                        <button type="submit" class="submit-btn">Send Message</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2025 Tickle Treats Bakery. All rights reserved.</p>
+    </footer>
+</body>
+</html>
